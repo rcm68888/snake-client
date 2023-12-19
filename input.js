@@ -1,41 +1,37 @@
 // Stores the active TCP connection object.
+const { connect } = require('./client');
 let connection;
+const stdin = process.stdin;
+
+const mappings = {
+  w: "Move: up",
+  a: "Move: left",
+  s: "Move: down",
+  d: "Move: right",
+  f: “Say: f in chat”, 
+  g: “Say: ggg”,
+  l: “Say lalala”
+};
 
 const handleUserInput = (key) => {
-  // \u0047 => g
-  if(key === '\u0003') {    
-    process.exit();
-  } else if (key === '\u0077') {
-    // w
-    connection.write('Move: up')
-  } else if (key === '\u0061') {
-    // a
-    connection.write('Move: left')
-  } else if (key === '\u0073') {
-    // s
-    connection.write('Move: down')
-  } else if (key === '\u0064') {
-    // d
-    connection.write('Move: right')
+  // Short circuit if user does the Ctrl-C key
+  if (key === "\u0003") {
+    return process.exit();
   }
 
-  if(key === 'f') {
-    connection.write('Say: f in chat');
-  } else if (key === 'g') {
-    connection.write('Say: ggg');
-  } else if (key === 'l') {
-    connection.write('Say: glll!!!!!')
+  // handles all other key strokes
+  if (mappings[key]) {
+    connection.write(mappings[key]);
   }
-}
-
-const setupInput = function () {
-  const stdin = process.stdin;
+};
+const setupInput = function (conn) {
+  connection = conn;
   stdin.setRawMode(true);
   stdin.setEncoding("utf8");
   stdin.resume();
+  // handleUserInput(stdin);
+  stdin.on('data', handleUserInput);
   return stdin;
 };
 
-module.exports = {
-  setupInput
-}
+module.exports = { setupInput };
