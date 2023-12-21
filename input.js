@@ -8,9 +8,6 @@ const mappings = {
   a: "Move: left",
   s: "Move: down",
   d: "Move: right",
-  f: “Say: f in chat”, 
-  g: “Say: ggg”,
-  l: “Say lalala”
 };
 
 const handleUserInput = (key) => {
