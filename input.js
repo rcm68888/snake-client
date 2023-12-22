@@ -8,6 +8,7 @@ const mappings = {
   a: "Move: left",
   s: "Move: down",
   d: "Move: right",
+  x: "Say: goooo!!!!!"
 };
 
 const handleUserInput = (key) => {
